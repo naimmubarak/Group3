@@ -90,7 +90,7 @@ while ($row = $ingredient_result->fetch_assoc()) {
                         <a class="nav-link" href="recipe.php">Recipes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="profile.php">Profile</a>
+                        <a class="nav-link" href="profile.php?user_id=10000001">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contributors.php">Contributors</a>
