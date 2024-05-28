@@ -50,7 +50,7 @@ $result = $conn->query($sql);
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($recipe['Title']) ?></h5>
                             <p class="card-text"><?= htmlspecialchars($recipe['Description']) ?></p>
-                            <a href="recipe.php?id=<?= $recipe['RecipeID'] ?>" class="btn btn-primary">View Recipe</a>
+                            <a href="recipe_detail.php?id=<?= $recipe['RecipeID'] ?>" class="btn btn-primary">View Recipe</a>
                         </div>
                     </div>
                 </div>
@@ -62,5 +62,3 @@ $result = $conn->query($sql);
         </div>
     </body>
 </html>
-
-
