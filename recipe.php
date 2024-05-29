@@ -1,7 +1,33 @@
 <?php
 require_once('config.php');
 $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-$sql = "SELECT RecipeID, Title, Description, Image FROM Recipes";
+
+// Initialize filter variables
+$filter_dietary = isset($_GET['filter_dietary']) ? $_GET['filter_dietary'] : '';
+$filter_ingredients = isset($_GET['filter_ingredients']) ? $_GET['filter_ingredients'] : '';
+
+// Build the SQL query based on filters
+$sql = "SELECT R.RecipeID, R.Title, R.Description, R.Image 
+        FROM Recipes R";
+
+$conditions = array();
+
+if ($filter_ingredients) {
+    $sql .= " JOIN (SELECT RecipeID 
+                    FROM RecipeIngredients 
+                    GROUP BY RecipeID 
+                    HAVING COUNT(RecipeID) < 10) RI 
+              ON R.RecipeID = RI.RecipeID";
+}
+
+if ($filter_dietary) {
+    $conditions[] = "R.PreferenceID = (SELECT PreferenceID FROM DietaryPreferences WHERE Name = '" . mysqli_real_escape_string($conn, $filter_dietary) . "')";
+}
+
+if (count($conditions) > 0) {
+    $sql .= " WHERE " . implode(' AND ', $conditions);
+}
+
 $result = $conn->query($sql);
 ?>
 
@@ -15,8 +41,7 @@ $result = $conn->query($sql);
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">HusciiByte</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-
-                    controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -40,24 +65,50 @@ $result = $conn->query($sql);
             </div>
         </nav>
         <div class="container">
-            <h1>Available Recipes</h1>
             <div class="row">
-                <?php if ($result->num_rows > 0): ?>
-                <?php while ($recipe = $result->fetch_assoc()): ?>
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <img src="<?= htmlspecialchars($recipe['Image']) ?>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($recipe['Title']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($recipe['Description']) ?></p>
-                            <a href="recipe_detail.php?id=<?= $recipe['RecipeID'] ?>" class="btn btn-primary">View Recipe</a>
+                <div class="col-md-3">
+                    <!-- Filters -->
+                    <h4>Filter Recipes</h4>
+                    <form method="GET" action="recipe.php">
+                        <div class="form-group">
+                            <label for="filter_dietary">Dietary Preferences</label>
+                            <select class="form-control" id="filter_dietary" name="filter_dietary">
+                                <option value="">Select</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Gluten-Free">Gluten-Free</option>
+                                <!-- Add more options as needed -->
+                            </select>
                         </div>
+                        <div class="form-group">
+                            <label for="filter_ingredients">Ingredients</label>
+                            <button type="submit" name="filter_ingredients" value="true" class="btn btn-primary btn-block">Less than 10 Ingredients</button>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Apply Filters</button>
+                    </form>
+                    <a href="recipe.php" class="btn btn-secondary btn-block mt-2">Clear Filters</a>
+                </div>
+                <div class="col-md-9">
+                    <h1>Available Recipes</h1>
+                    <div class="row">
+                        <?php if ($result->num_rows > 0): ?>
+                        <?php while ($recipe = $result->fetch_assoc()): ?>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <img src="<?= htmlspecialchars($recipe['Image']) ?>" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= htmlspecialchars($recipe['Title']) ?></h5>
+                                    <p class="card-text"><?= htmlspecialchars($recipe['Description']) ?></p>
+                                    <a href="recipe_detail.php?id=<?= $recipe['RecipeID'] ?>" class="btn btn-primary">View Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endwhile; ?>
+                        <?php else: ?>
+                        <p>No recipes found.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <?php endwhile; ?>
-                <?php else: ?>
-                <p>No recipes found.</p>
-                <?php endif; ?>
             </div>
         </div>
     </body>
