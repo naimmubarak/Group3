@@ -52,86 +52,86 @@ if (isset($_GET['user_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><?= htmlspecialchars($recipe['Title']) ?> - Recipe Details</title>
-    <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .recipe-image {
-            max-height: 400px;
-            object-fit: cover;
-        }
-        .recipe-container {
-            margin-top: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        .recipe-title {
-            color: #343a40;
-        }
-        .recipe-section {
-            margin-bottom: 20px;
-        }
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .div2{
-            margin-left: 40px;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">HusciiByte</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <head>
+        <meta charset="UTF-8">
+        <title><?= htmlspecialchars($recipe['Title']) ?> - Recipe Details</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+            .recipe-image {
+                max-height: 400px;
+                object-fit: cover;
+            }
+            .recipe-container {
+                margin-top: 20px;
+                background-color: #ffffff;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                padding: 20px;
+            }
+            .recipe-title {
+                color: #343a40;
+            }
+            .recipe-section {
+                margin-bottom: 20px;
+            }
+            .navbar {
+                margin-bottom: 20px;
+            }
+            .div2{
+                margin-left: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">HusciiByte</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="home.php">Home</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="recipe.php">Recipes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="profile.php?user_id=10000001">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contributors.php">Contributors</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<div class="div2">
-    <h1>User Profile</h1>
-    <h2>Information</h2>
-    <p><strong>Username:</strong> <?php echo htmlspecialchars($user['Username']); ?></p>
-    <p><strong>Email:</strong> <?php echo htmlspecialchars($user['Email']); ?></p>
-    <p><strong>Registration Date:</strong> <?php echo htmlspecialchars($user['Registration_Date']); ?></p>
-    <p><strong>Level:</strong> <?php echo htmlspecialchars($user['Lvl']); ?></p>
-    <p><strong>Level Percentile:</strong> <?php echo htmlspecialchars($user_percentile); ?>%</p>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="recipe.php">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php?user_id=10000001">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contributors.php">Contributors</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="div2">
+            <h1>User Profile</h1>
+            <h2>Information</h2>
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($user['Username']); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($user['Email']); ?></p>
+            <p><strong>Registration Date:</strong> <?php echo htmlspecialchars($user['Registration_Date']); ?></p>
+            <p><strong>Level:</strong> <?php echo htmlspecialchars($user['Lvl']); ?></p>
+            <p><strong>Level Percentile:</strong> <?php echo htmlspecialchars($user_percentile); ?>%</p>
 
-    <h2>Recipes Created</h2>
-    <?php if ($recipes_result->num_rows > 0): ?>
-        <ul>
-            <?php while ($recipe = $recipes_result->fetch_assoc()): ?>
+            <h2>Recipes Created</h2>
+            <?php if ($recipes_result->num_rows > 0): ?>
+            <ul>
+                <?php while ($recipe = $recipes_result->fetch_assoc()): ?>
                 <li>
-                    <a href="Instruction.php?recipe_id=<?php echo $recipe['RecipeID']; ?>">
+                    <a href="recipe_detail.php?recipe_id=<?php echo $recipe['RecipeID']; ?>">
                         <?php echo htmlspecialchars($recipe['Title']); ?>
                     </a>
                 </li>
-            <?php endwhile; ?>
-        </ul>
-    <?php else: ?>
-        <p>No recipes found.</p>
-    <?php endif; ?>
-</div>
-</body>
+                <?php endwhile; ?>
+            </ul>
+            <?php else: ?>
+            <p>No recipes found.</p>
+            <?php endif; ?>
+        </div>
+    </body>
 </html>
