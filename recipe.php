@@ -1,17 +1,19 @@
 <?php
-require_once('config.php');
+require_once('config.php'); // Include the database configuration file
+
+// Establish a connection to the database
 $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
-// Initialize filter variables
+// Initialize filter variables from the GET parameters
 $filter_dietary = isset($_GET['filter_dietary']) ? $_GET['filter_dietary'] : '';
 $filter_ingredients = isset($_GET['filter_ingredients']) ? $_GET['filter_ingredients'] : '';
 
 // Build the SQL query based on filters
-$sql = "SELECT R.RecipeID, R.Title, R.Description, R.Image 
-        FROM Recipes R";
+$sql = "SELECT R.RecipeID, R.Title, R.Description, R.Image FROM Recipes R";
 
-$conditions = array();
+$conditions = array(); // Array to hold query conditions
 
+// Add a nested query to filter recipes with less than 10 ingredients
 if ($filter_ingredients) {
     $sql .= " JOIN (SELECT RecipeID 
                     FROM RecipeIngredients 
@@ -20,14 +22,17 @@ if ($filter_ingredients) {
               ON R.RecipeID = RI.RecipeID";
 }
 
+// Add a nested query to filter recipes by dietary preference
 if ($filter_dietary) {
     $conditions[] = "R.PreferenceID = (SELECT PreferenceID FROM DietaryPreferences WHERE Name = '" . mysqli_real_escape_string($conn, $filter_dietary) . "')";
 }
 
+// Append conditions to the main SQL query if any conditions exist
 if (count($conditions) > 0) {
     $sql .= " WHERE " . implode(' AND ', $conditions);
 }
 
+// Execute the query and get the result
 $result = $conn->query($sql);
 ?>
 
@@ -67,7 +72,7 @@ $result = $conn->query($sql);
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <!-- Filters -->
+                    <!-- Filters section -->
                     <h4>Filter Recipes</h4>
                     <form method="GET" action="recipe.php">
                         <div class="form-group">
@@ -91,6 +96,7 @@ $result = $conn->query($sql);
                 <div class="col-md-9">
                     <h1>Available Recipes</h1>
                     <div class="row">
+                        <!-- Check if there are any recipes and display them -->
                         <?php if ($result->num_rows > 0): ?>
                         <?php while ($recipe = $result->fetch_assoc()): ?>
                         <div class="col-md-6">
