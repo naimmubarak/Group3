@@ -1,4 +1,5 @@
 <?php
+// Author: Luke Chung, Naim Mubarak, Minh Vu
 require_once('config.php'); // Include the database configuration file
 
 // Establish a connection to the database
