@@ -1,5 +1,11 @@
+<!-- 
+TCSS 445 2024 
+Group 3
+Huscii Bytes:
+Minh Vu, Naim Mubarak, Luke Chung
+-->
 <?php
-// Author: Luke Chung, Naim Mubarak, Minh Vu
+
 require_once('config.php'); // Include the database configuration file
 
 // Establish a connection to the database

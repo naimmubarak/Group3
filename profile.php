@@ -1,3 +1,9 @@
+<!-- 
+TCSS 445 2024 
+Group 3
+Huscii Bytes:
+Minh Vu, Naim Mubarak, Luke Chung
+-->
 <?php
 require_once('config.php');
 $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
