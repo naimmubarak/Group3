@@ -1,3 +1,4 @@
+<!-- Authors: Naim Mubarak, Luke Chung, Minh Vu -->
 <?php require_once('config.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
