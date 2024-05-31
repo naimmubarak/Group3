@@ -5,19 +5,24 @@ Huscii Bytes:
 Minh Vu, Naim Mubarak, Luke Chung
 -->
 <?php
-require_once('config.php');
+require_once('config.php'); // Include the database configuration file
+
+// Establish a connection to the database
 $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
+// Check if the connection was successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Query 2
+// Query 2: Selects user information along with the count of recipes created by each user
 $contributors_sql = "SELECT Users.UserID, Users.Username, COUNT(Recipes.RecipeID) AS RecipeCount
                     FROM Users
                     JOIN Recipes ON Users.UserID = Recipes.CreatedByUserID
                     GROUP BY Users.UserID, Users.Username
                     ORDER BY RecipeCount DESC";
+
+// Execute the query and store the result
 $contributors_result = mysqli_query($conn, $contributors_sql);
 ?>
 
@@ -25,9 +30,10 @@ $contributors_result = mysqli_query($conn, $contributors_sql);
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title><?= htmlspecialchars($recipe['Title']) ?> - Recipe Details</title>
-        <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css">
+        <title>Top Contributors</title> <!-- Title of the page -->
+        <link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css"> <!-- Link to external stylesheet -->
         <style>
+            /* Custom styles for the page */
             body {
                 background-color: #f8f9fa;
             }
@@ -54,6 +60,7 @@ $contributors_result = mysqli_query($conn, $contributors_sql);
         </style>
     </head>
     <body>
+    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">HusciiByte</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,10 +84,12 @@ $contributors_result = mysqli_query($conn, $contributors_sql);
             </ul>
         </div>
     </nav>
-<!-- grabs from the sql query and puts it in a list group(bootstrap) displays it-->
+
+    <!-- Main content container -->
     <div class="container">
         <h1>Top Contributors</h1>
         <ul class="list-group">
+            <!-- Loop through each row of the result and display the contributor's information -->
             <?php while ($row = mysqli_fetch_assoc($contributors_result)): ?>
                 <li class="list-group-item">
                     <a href="profile.php?user_id=<?php echo $row['UserID']; ?>">
@@ -91,5 +100,5 @@ $contributors_result = mysqli_query($conn, $contributors_sql);
         </ul>
     </div>
 </body>
-
 </html>
+
