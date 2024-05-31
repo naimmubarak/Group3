@@ -108,7 +108,6 @@ $result = $conn->query($sql);
                         <?php while ($recipe = $result->fetch_assoc()): ?>
                         <div class="col-md-6">
                             <div class="card mb-3">
-                                <img src="<?= htmlspecialchars($recipe['Image']) ?>" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($recipe['Title']) ?></h5>
                                     <p class="card-text"><?= htmlspecialchars($recipe['Description']) ?></p>

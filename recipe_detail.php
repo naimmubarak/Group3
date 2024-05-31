@@ -106,7 +106,6 @@ while ($row = $ingredient_result->fetch_assoc()) {
         </nav>
         <div class="container recipe-container">
             <h1 class="recipe-title"><?= htmlspecialchars($recipe['Title']) ?></h1>
-            <img src="<?= htmlspecialchars($recipe['Image']) ?>" class="img-fluid recipe-image" alt="Recipe Image">
             <div class="recipe-section">
                 <h3>Description</h3>
                 <p><?= htmlspecialchars($recipe['Description']) ?></p>
