@@ -123,7 +123,7 @@ if (isset($_GET['user_id'])) {
             <ul>
                 <?php while ($recipe = $recipes_result->fetch_assoc()): ?>
                 <li>
-                    <a href="recipe_detail.php?recipe_id=<?php echo $recipe['RecipeID']; ?>">
+                    <a href="recipe_detail.php?id=<?php echo $recipe['RecipeID']; ?>">
                         <?php echo htmlspecialchars($recipe['Title']); ?>
                     </a>
                 </li>
