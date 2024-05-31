@@ -1,3 +1,9 @@
+<!-- 
+TCSS 445 2024 
+Group 3
+Huscii Bytes:
+Minh Vu, Naim Mubarak, Luke Chung
+-->
 <?php
 require_once('config.php');
 $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
@@ -71,7 +77,7 @@ $contributors_result = mysqli_query($conn, $contributors_sql);
             </ul>
         </div>
     </nav>
-
+<!-- grabs from the sql query and puts it in a list group(bootstrap) displays it-->
     <div class="container">
         <h1>Top Contributors</h1>
         <ul class="list-group">
